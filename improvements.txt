@@ -1,0 +1,4 @@
+Changes made for release:
+	Widened the search bar
+	Added the clear button 
+	Added additional directional information when directions have been requested.

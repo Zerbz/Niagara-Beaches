@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<!--
+  I, Matthew Szczerba, student number 000737180, certify that all code submitted is my own work; that I have not copied it from any other source. 
+  I also certify that I have not allowed my work to be copied by others.
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Beaches Niagara</title>
+    <style>
+        .navbar {
+            margin-bottom: 0;
+        }
+
+        #expandButton{
+            color:black;
+        }
+
+        #headerTitle{
+            margin-top:10px;
+            color:white;
+        }
+
+        li{
+            color:white;
+        }
+
+        #searchTerm{
+            width:475px;
+            padding:none;
+            margin-top:0px;
+        }
+
+        #search{
+            margin-right:100px;
+        }
+
+        #searchIcon,#clearIcon{
+            margin-bottom:10px;
+        }
+
+        #clearIcon{
+            visibility: hidden;
+        }
+        
+        .dropdown-menu-item {
+            color: black;
+            display: block;
+            padding-left: 20px;
+            width: 100%;
+            text-align: left;
+            font-weight: normal;
+        }
+
+        body{
+            font-size:2.0em;
+        }
+
+        .navbar-nav > li > .dropdown-menu { 
+            background-color: #2c3e50;
+            }
+        
+        .navbar-nav > li > .dropdown-menu > label{
+            color:white;         
+            }
+        
+        .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover{
+            background-color:#6495ed;
+        }
+        
+        .navbar-form .checkbox, .navbar-form .radio .dropdown-menu-item{
+            color:white;
+        }
+        
+
+        @media only screen and (max-width:1750px){
+                #search{
+                margin-right:300px;
+            }
+        }
+        
+        @media only screen and (max-width:1714px){
+                #search{
+                margin-right:0px;
+            }
+
+            #searchTerm{
+                width:350px;
+            }
+        }
+
+        @media only screen and (max-width:768px){
+                #search{
+                margin-right:100%;
+            }
+                   
+            #searchTerm{
+                width:250px;
+            }
+
+            .dropdown-menu-item{
+                margin-left:15px;
+            }
+
+            #searchIcon{
+                display: none;
+            }
+        }
+
+    
+    </style>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?key=Ajamsez-IhfvKV1ztlkAy69_bmdtCBAQi0vfzUNO6gTqWK1_zvBlRQXd46aKcOfi&amp;callback=loadMapScenario" async="false" defer=""></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <nav id="theNav" class="navbar navbar-default navbar-fixed-top" style="background-color: #2c3e50;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="headerTitle" class="navbar-brand" href="#" style=font-size:1.5em;>Beaches Niagara</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <form class="navbar-form" id="searchBar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white;">Municipalities<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Grimsby')" autocomplete="off" />
+                                        Grimsby
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Fort Erie')" autocomplete="off" />
+                                        Fort Erie
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Lincoln')" autocomplete="off" />
+                                        Lincoln
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Wainfleet')" autocomplete="off" />
+                                        Wain Fleet
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Niagara-on-the-Lake')" autocomplete="off" />
+                                        Niagara-On-The-Lake
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('St. Catharines')" autocomplete="off" />
+                                        St.Catharines
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Port Colborne')" autocomplete="off" />
+                                        Port Colborne
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white;">Water Body<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Lake Ontario')" autocomplete="off" />
+                                        Lake Ontario
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Lake Erie')" autocomplete="off" />
+                                        Lake Erie
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Niagara River')" autocomplete="off" />
+                                        Niagara River
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Dils Lake')" autocomplete="off" />
+                                        Dils Lake
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white;">Ownership<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Public')" autocomplete="off" />
+                                        Public
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Private')" autocomplete="off" />
+                                        Private
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white;">Ammenities<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Parking')" autocomplete="off" />
+                                        Parking
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Washrooms')" autocomplete="off" />
+                                        Washrooms
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="dropdown-menu-item checkbox">
+                                        <input type="checkbox" onclick="onFilter('Garbage')" autocomplete="off" />
+                                        Garbage
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </form>
+                <form id="searchField" class="navbar-form navbar-right" action="search" method="post">
+                    <div id="search" class='input-group'>
+                        <input id="searchTerm" type="search" placeholder="Search for a beach" class="form-control">
+                        <span class="input-group-btn">
+                            <button id="searchIcon" type='submit' class='btn btn-default'>
+                                <span class='glyphicon glyphicon-search'></span>
+                            </button>
+                            <button id="clearIcon" type='button' class='btn btn-default' onClick="clearAll()">
+                                <span class='glyphicon glyphicon-remove'></span>
+                            </button>
+                        </span>
+                        <input type="submit" value="Search" style="visibility: hidden;" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div id="beachMap" class="col-md-6" style="position:absolute; width:100%; height:100%;">
+        <div id="directionsSectionMobile"></div>
+    </div>
+    <div id="directionsSection" style="max-height:100vh; overflow-y: auto;"></div>
+    <script>
+        var loadedBeaches = []; // loadedBeaches will store all of the beache data recieved from the API response
+        var geoLoaded = false; // geoLoaded will be used to determine whether or not the user has denied location services.
+        var userLat; // stores the users latitude
+        var userLong; // stores the users longitude
+        $(document).ready(function () {
+            getJson();
+
+            // The getJson method will call the niagaraopendata api and retrieve the most current api data.
+            function getJson() {
+                fetch("https://niagaraopendata.ca/dataset/1ca52a3b-03a9-412f-a10a-59ddab0743c5/resource/15db2b16-abe9-469f-9441-80fc3e355b8d/download/beaches.json")
+                    .then((resp) => resp.json())
+                    .then(function (data) {
+                        // Once the data has been retrieved, loop through all of the objects, turn them into usable objects and store them in loaded beaches.
+                        var i;
+                        for (i = 0; i < data.features.length; i++) {
+                            var toStringit = JSON.stringify(data.features[i])
+                            var response = JSON.parse(toStringit);
+                            loadedBeaches.push(response);
+                        }
+                    }
+                )
+            }
+        });
+
+        var loadedMap; //loadedMap is a global variable that will be used to manipulate the rendered map.
+
+        // The loadMapScenario function occurs on load of the page and will create the default map.
+        function loadMapScenario() {
+            getLocation(); // Call to the getLocation function to retrieve the users data.
+
+            // Creates the map instance and will set the default center to niagara, unless the user provides geolocation services.
+            var map = new Microsoft.Maps.Map(document.getElementById('beachMap'), {
+                center: new Microsoft.Maps.Location(43.0582, -79.2902)
+            });
+            
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(loadedMap);
+            });
+
+            loadedMap = map;
+
+            // Creates the infobox instance, which will be used to display the information contained in each pushpin
+            infobox = new Microsoft.Maps.Infobox(loadedMap.getCenter(), { visible: false });
+
+            // Assign the infobox to a map instance.
+            infobox.setMap(loadedMap);
+            if (loadedBeaches.length === 0) {
+                setTimeout(loadMapScenario, 500)
+            }
+            
+            placePins(loadedBeaches); // Call the placePins method to populate the map with pushpins
+        }
+
+        // The getLocation function will try to retrieve the user's geoLocation and will either call showPosition or showError depending on result.
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                // If the browser is not supported inform the user.
+                userLocation.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        // This is the showPosition function, it will retrieve the users location and place a pin on the map
+        function showPosition(position) {
+
+            // Create a new location instance from the users positioning
+            var location = new Microsoft.Maps.Location(position.coords.latitude, position.coords.longitude);
+
+            // Create a new pin with the user's location
+            var pin = new Microsoft.Maps.Pushpin(location, {
+                color: 'green'
+            });
+
+            // Only display to the user that the pin is their current location
+            pin.metadata = {
+                title: "Current Location"
+            }
+
+            // Adds the pushPinClicked handler that will set the pins infobox values 
+            Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+
+            // Adds the pushpin to the map.
+            loadedMap.entities.push(pin);
+
+            // Center the map on the users pin.
+            loadedMap.setView({
+                center: location
+            });
+
+            geoLoaded = true;
+            userLat = position.coords.latitude;
+            userLong = position.coords.longitude;
+        }
+
+        // The showError function will set geoLoaded to false, so that certain features are disabled.
+        function showError() {
+            geoLoaded = false;
+        }
+
+        var filterTerms = []; // Initialize an empty array, that will store the filter terms
+
+        // The onFilter function will check the filterTerms array for the filter term, and if it is not already present, places it in the filterTerms array
+        function onFilter(filter) {
+            // If the term isnt present, add it to the array
+            if ($.inArray(filter, filterTerms) == -1) {
+                filterTerms.push(filter);
+            }
+            // otherwise remove it. This will occur when the user removes the term on the frontend.
+            else {
+                filterTerms.splice($.inArray(filter, filterTerms), 1);
+            }
+            
+            // Now that the correct terms are present make a call to the onApplyFilter method, to place the correct pins
+            onApplyFilter(filterTerms);
+        }
+
+
+        // The onApplyFilter function recieves the filter terms from the onFilter function and repopulates the map with pushpins.
+        function onApplyFilter(filters) {
+            // Iterate through all of the loadedMap pushpins and remove them from the map, unless the pin is the users location.
+            // https://www.bing.com/api/maps/sdk/mapcontrol/isdk/deletepushpins#JS
+            for (var i = loadedMap.entities.getLength() - 1; i >= 0; i--) {
+                var pushpin = loadedMap.entities.get(i);
+
+                if (pushpin instanceof Microsoft.Maps.Pushpin && pushpin.metadata.title != "Current Location") {
+                    loadedMap.entities.removeAt(i);
+                }
+            }
+
+            infobox.setMap(loadedMap);
+
+            // Declare an empty array to store the filtered beaches 
+            var filteredBeaches = [];
+
+            if (filters.length > 0) {
+                // Display the clear button
+                document.getElementById("clearIcon").style.visibility = "visible";   
+
+                // If the user has selected a filter, find the beaches that match this criteria
+                for (i = 0; i < filters.length; i++) {
+                    // iterate through the beaches then determine whether they match criteria
+                    for (x = 0; x < loadedBeaches.length; x++) {
+                        // Store all of the values in one array for easier processing
+                        var beachValues = [loadedBeaches[x].properties.BEACH_MUNICIPALITY, loadedBeaches[x].properties.BEACH_BODY_WATER, loadedBeaches[x].properties.BEACH_TYPE]
+                        
+                        // If the beach matches a value and is not already in the array, add it to the array
+                        if ($.inArray(filters[i], beachValues) != -1 && $.inArray(loadedBeaches[x], filteredBeaches) == -1) {
+                            filteredBeaches.push(loadedBeaches[x]);
+                        }
+                        // If the filter is Parking, find all beaches that have "Yes" for parking
+                        else if (filters[i] == "Parking") {
+                            beachValues.push(loadedBeaches[x].properties.BEACH_PARKING)
+                            if ($.inArray("Yes", beachValues) != -1 && $.inArray(loadedBeaches[x], filteredBeaches) == -1)
+                                filteredBeaches.push(loadedBeaches[x]);
+                        }
+                        // If the filter is Washrooms, find all beaches that have "Yes" for washrooms
+                        else if (filters[i] == "Washrooms") {
+                            beachValues.push(loadedBeaches[x].properties.BEACH_WASHROOM)
+                            if ($.inArray("Yes", beachValues) != -1 && $.inArray(loadedBeaches[x], filteredBeaches) == -1)
+                                filteredBeaches.push(loadedBeaches[x]);
+                        }
+                        // If the filter is Garbage, find all beaches that have "Yes" for garbage
+                        else if (filters[i] == "Garbage") {
+                            beachValues.push(loadedBeaches[x].properties.BEACH_GARBAGE)
+                            if ($.inArray("Yes", beachValues) != -1 && $.inArray(loadedBeaches[x], filteredBeaches) == -1)
+                                filteredBeaches.push(loadedBeaches[x]);
+                        }
+                        // Find all of the public/park/road allowance beaches. Could refactor to just ensure the beach isn't private. Do this for final release.
+                        else if (filters[i] == "Public") {
+                            if ($.inArray("Public Beach", beachValues) != -1 || $.inArray("Park", beachValues) != -1 || $.inArray("Road Allowance", beachValues) != -1 && $.inArray(loadedBeaches[x], filteredBeaches) == -1)
+                                filteredBeaches.push(loadedBeaches[x]);
+                        }
+                    }
+                }
+            }
+            // If there are no filters then use all of the beaches
+            else {
+                filteredBeaches = loadedBeaches;
+            }
+
+            placePins(filteredBeaches); // Calls the placePins function to place all of the pins on the map
+        }
+        
+        // Listens for a search submission, thus enabling the user to press enter instead of clicking a button
+        $("#searchField").submit(function () {
+            onSearch($("#searchTerm").get(0));
+            return false;
+        });
+        
+        // The onSearch function will determine whether or not the field is empty, and then filter the results.
+        function onSearch(searchTerm) {
+            // If the searchTerm does not come as a string, the user selected enter, this means we need to get the searchTerm.value
+            if (typeof searchTerm != "string") {
+                var searchTerm = searchTerm.value;
+            }
+            
+            $("#checkbox").prop("checked", false);
+            // converts the entered term to lowercase
+            searchTerm = searchTerm.toLowerCase();
+            // reset the search term
+            $('#searchTerm').val('');
+            
+            // Remove all the old pins from the map
+            for (var i = loadedMap.entities.getLength() - 1; i >= 0; i--) {
+                var pushpin = loadedMap.entities.get(i);
+
+                if (pushpin instanceof Microsoft.Maps.Pushpin && pushpin.metadata.title != "Current Location") {
+                    loadedMap.entities.removeAt(i);
+                }
+            }
+
+
+            infobox.setMap(loadedMap);
+
+            // If the searchTerm wasnt empty
+            if (searchTerm != "") {
+                // Make the clear button visible
+                document.getElementById("clearIcon").style.visibility = "visible";      
+
+                // Declare an empty array to store the filtered beaches
+                var filteredBeaches = [];
+                
+                // Loop through all the beaches and determine if any match the municipality, beach name, water body or type
+                for (x = 0; x < loadedBeaches.length; x++) {
+                    if (loadedBeaches[x].properties.BEACH_MUNICIPALITY.toLowerCase().includes(searchTerm)) {
+                        filteredBeaches.push(loadedBeaches[x]);
+                    }
+                    else if (loadedBeaches[x].properties.BEACH_NAME.toLowerCase().includes(searchTerm)) {
+                        filteredBeaches.push(loadedBeaches[x]);
+                    }
+                    else if (loadedBeaches[x].properties.BEACH_BODY_WATER.toLowerCase().includes(searchTerm)) {
+                        filteredBeaches.push(loadedBeaches[x]);
+                    }
+                    else if (loadedBeaches[x].properties.BEACH_TYPE.toLowerCase().includes(searchTerm)) {
+                        filteredBeaches.push(loadedBeaches[x]);
+                    }
+                }
+
+                placePins(filteredBeaches); // call the placePins function to add the beaches to the map
+            }
+            else {
+                placePins(loadedBeaches); // call the placePins function to add the beaches to the map
+            }
+        }
+        
+        function clearAll(){
+            placePins(loadedBeaches);
+            directionsManager.clearAll(); 
+            document.getElementById("beachMap").style.left = "0px"; 
+            document.getElementById("clearIcon").style.visibility = "hidden"; 
+            document.getElementById("beachMap").style.height = "100%";
+            document.getElementById("beachMap").style.width = "100%";
+            document.getElementById("directionsSection").style.marginTop = "0px";
+            $('input[type=checkbox]').prop('checked',false);
+            filterTerms = [];
+        }
+
+        function placePins(beaches) {
+            loadedMap.layers.clear(); // Remove any direction layers that may be present
+            var filteredBeaches = beaches;
+
+            // Iterate through all of the beaches and create their push pin
+            for (i = 0; i < filteredBeaches.length; i++) {
+
+                // Creates a new location instance based on the lat and long found in each object
+                var location = new Microsoft.Maps.Location(filteredBeaches[i].geometry.coordinates[1], filteredBeaches[i].geometry.coordinates[0]);
+
+                // If the beach is private, it will appear red
+                if (filteredBeaches[i].properties.BEACH_TYPE == "Private") {
+                    // Creates a new pin using the location object
+                    var pin = new Microsoft.Maps.Pushpin(location, {
+                        color: 'red'
+                    });
+                }
+                // If the beach is unknown it will appear orange
+                else if (filteredBeaches[i].properties.BEACH_TYPE == "Unknown") {
+                    // Creates a new pin using the location object
+                    var pin = new Microsoft.Maps.Pushpin(location, {
+                        color: 'orange'
+                    });
+                }
+                // If the beach is public, it will appear blue
+                else {
+                    // Creates a new pin using the location object
+                    var pin = new Microsoft.Maps.Pushpin(location, {
+                        color: 'blue'
+                    });
+                }
+
+                // Sets the data that will be stored in the pushpin
+                pin.metadata = {
+                    title: filteredBeaches[i].properties.BEACH_NAME,
+                    description: '<img src="images/' + filteredBeaches[i].properties.BEACH_NAME + '.jpg" alt=' + filteredBeaches[i].properties.BEACH_NAME + 'height=100 width=100> <br>' + '<strong>Body of water:</strong> ' + filteredBeaches[i].properties.BEACH_BODY_WATER + '<br>' + " <strong>" + filteredBeaches[i].properties.BEACH_TYPE + "</strong> " + '<br>'
+                        + '<strong>Ammenities Available:</strong> ' + 'Garbage: ' + filteredBeaches[i].properties.BEACH_GARBAGE + '<br> Parking: ' + filteredBeaches[i].properties.BEACH_PARKING + '<br> Washroom: ' + filteredBeaches[i].properties.BEACH_WASHROOM,
+                    lat: filteredBeaches[i].geometry.coordinates[1],
+                    long: filteredBeaches[i].geometry.coordinates[0]
+                };
+
+                // Adds the pushPinClicked handler that will set the pins infobox values
+                Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+
+                //Add each pushpin to the map.
+                loadedMap.entities.push(pin);
+            }
+        }
+        
+        // The pushpinClicked function will set the infobox data dependent on the target. 
+        function pushpinClicked(e) {
+            // If there is metadata present
+            if (e.target.metadata) {
+                // If the user selects their location pin, only show the name of the pin, nothing more.
+                if (e.target.metadata.title == "Current Location") {
+                    infobox.setOptions({
+                        location: e.target.getLocation(),
+                        title: e.target.metadata.title,
+                        description: "",
+                        visible: true
+                    });
+                } else if (geoLoaded) {
+                    // If the pin is not the users location pin, set all of that data stored in the pushpin metadata to the infobox.
+                    infobox.setOptions({
+                        location: e.target.getLocation(),
+                        title: e.target.metadata.title,
+                        description: e.target.metadata.description + '<br>' + '<button id="directions" type="button" class="btn btn-primary btn-block" onclick="getDirections(' + e.target.metadata.lat + ',' + e.target.metadata.long + ')">Directions</button>',
+                        visible: true,
+                        maxWidth: 200,
+                        maxHeight: 550
+                    });
+                }
+                else if (geoLoaded === false) {
+                    // If the pin is not the users location pin, set all of that data stored in the pushpin metadata to the infobox.
+                    infobox.setOptions({
+                        location: e.target.getLocation(),
+                        title: e.target.metadata.title,
+                        description: e.target.metadata.description + '<br>' + '<button id="directions" type="button" class="btn btn-primary btn-block" disabled>Directions Disabled</button>',
+                        visible: true,
+                        maxWidth: 200,
+                        maxHeight: 550
+                    });
+                }
+
+            }
+        }
+        
+        // The getDirections method will take a lat,long and provide directions from the users geolocation to their beach of choice
+        function getDirections(lat, long) {
+            loadedMap.layers.clear(); // Remove any previously loaded direction layers
+            Microsoft.Maps.loadModule('Microsoft.Maps.Directions', function () {
+                directionsManager = new Microsoft.Maps.Directions.DirectionsManager(loadedMap);
+            
+                // usersWayPoint will represent the users location on the map.
+                var usersWaypoint = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(userLat, userLong) });
+                directionsManager.addWaypoint(usersWaypoint);
+                    
+                // beach will represent the beach that the user has selected.
+                var beach = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(lat, long) });
+                directionsManager.addWaypoint(beach);              
+                // Resize the map to fit the directions window
+                if ($(window).width() > 768) {
+                    document.getElementById("beachMap").style.left = "363px"; 
+                    document.getElementById("beachMap").style.width = "81%"; 
+                    document.getElementById("beachMap").style.height = "93.5%";
+                    document.getElementById("directionsSection").style.marginTop = "60px";
+                    document.getElementById("directionsSection").style.height = "93vh";                    
+                    directionsManager.setRenderOptions({ itineraryContainer: '#directionsSection' });
+                    directionsManager.calculateDirections();
+                }
+                // Resize the map so that directions fit well on mobile devices
+                else{
+                    document.getElementById("directionsSectionMobile").style.position = "fixed";
+                    document.getElementById("directionsSectionMobile").style.position = "absolute";
+                    document.getElementById("directionsSectionMobile").style.marginTop = $(window).height() + "px";
+                    directionsManager.setRenderOptions({ itineraryContainer: '#directionsSectionMobile' });                   
+                    directionsManager.calculateDirections();
+                }    
+                document.getElementById("clearIcon").style.visibility = "visible";      
+            });
+        }    
+    </script>
+</body>
+
+</html>

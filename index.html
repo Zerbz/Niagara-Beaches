@@ -284,6 +284,7 @@
         function showError(){geoLoaded=!1}
         var filterTerms=[];function onFilter(filter){if($.inArray(filter,filterTerms)==-1){filterTerms.push(filter)}
         else{filterTerms.splice($.inArray(filter,filterTerms),1)}
+        clearAll();
         onApplyFilter(filterTerms)}
         function onApplyFilter(filters){for(var i=loadedMap.entities.getLength()-1;i>=0;i--){var pushpin=loadedMap.entities.get(i);if(pushpin instanceof Microsoft.Maps.Pushpin&&pushpin.metadata.title!="Current Location"){loadedMap.entities.removeAt(i)}}
         infobox.setMap(loadedMap);var filteredBeaches=[];if(filters.length>0){document.getElementById("clearIcon").style.visibility="visible";for(i=0;i<filters.length;i++){for(x=0;x<loadedBeaches.length;x++){var beachValues=[loadedBeaches[x].properties.BEACH_MUNICIPALITY,loadedBeaches[x].properties.BEACH_BODY_WATER,loadedBeaches[x].properties.BEACH_TYPE]
